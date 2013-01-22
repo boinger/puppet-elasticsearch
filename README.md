@@ -2,6 +2,11 @@
 
 * Installs and runs elasticsearch as an upstart service
 
+##Requirements##
+* git
+* upstart (though, this is easy to hack around if you prefer init.d)
+* wget
+
 ##Usage##
 
 ###Basic:

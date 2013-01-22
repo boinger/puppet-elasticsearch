@@ -1,14 +1,14 @@
 class elasticsearch::install(
-  $version      = "0.20.2",
-  $install_root = "/opt",
+  $version       = "0.20.2",
+  $install_root  = "/opt",
   ## service template options
   $detail_status = true,
   $run_as_user   = 'logstash',
   $ulimit_n      = 32000,
   $use_upstart   = true,
-  $es_home    = "${install_root}/elasticsearch",
-  $es_min_mem = "256m",
-  $es_max_mem = "2g",
+  $es_home       = "${install_root}/elasticsearch",
+  $es_min_mem    = "256m",
+  $es_max_mem    = "2g",
 ){
 
   exec{
@@ -56,18 +56,18 @@ class elasticsearch::install(
       ensure  => directory;
 
     'elasticsearch servicewrapper file':
-      path => "${es_home}/bin/service/elasticsearch",
-      owner => root,
-      group => root,
-      content  => template('elasticsearch/elasticsearch-service.erb'),
+      path    => "${es_home}/bin/service/elasticsearch",
+      owner   => root,
+      group   => root,
+      content => template('elasticsearch/elasticsearch-service.erb'),
       require => Exec['install servicewrapper'];
 
     'elasticsearch upstart script':
       path    => '/etc/init/elasticsearch.conf',
       owner   => root,
       group   => root,
-      content  => template('elasticsearch/elasticsearch.conf.erb'),
-      require => File['elasticsearch servicewrapper file'];
+      content => template('elasticsearch/elasticsearch.conf.erb'),
+      require => [Package['upstart'], File['elasticsearch servicewrapper file'] ,];
   }
 
   #service{'elasticsearch':
@@ -75,6 +75,6 @@ class elasticsearch::install(
     #enable     => true,
     #hasstatus  => true,
     #hasrestart => true,
-    #require    => File['link elasticsearch service'],
+    #require    => File['elasticsearch init script'];
   #}
 }
