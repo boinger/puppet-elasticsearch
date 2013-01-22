@@ -6,10 +6,11 @@ class elasticsearch::install(
   $run_as_user   = 'logstash',
   $ulimit_n      = 32000,
   $use_upstart   = true,
-  $es_home       = "${install_root}/elasticsearch",
   $es_min_mem    = "256m",
   $es_max_mem    = "2g",
 ){
+
+  $es_home       = "${install_root}/elasticsearch"
 
   exec{
     'download elasticsearch':
@@ -34,7 +35,7 @@ class elasticsearch::install(
       creates => "${es_home}/bin/service",
       require => [
         Exec['untar elasticsearch'],
-        File['/opt/elasticsearch'],
+        File["${es_home}"],
         Package['git']
         ];
 
@@ -42,15 +43,15 @@ class elasticsearch::install(
     "restart elasticsearch":
       command     => "stop elasticsearch; start elasticsearch",
       refreshonly => true,
-      require     => [ File['/etc/init/elasticsearch.conf'], ],
-      subscribe   => [ File['/etc/init/elasticsearch.conf'], ];
+      require     => File['/etc/init/elasticsearch.conf'],
+      subscribe   => File['/etc/init/elasticsearch.conf'];
 
   }
 
   file{
     "${es_home}":
       ensure  => "${es_home}-${version}",
-      require => [Exec['untar elasticsearch'], ];
+      require => Exec['untar elasticsearch'];
 
     "${es_home}/logs":
       ensure  => directory;
