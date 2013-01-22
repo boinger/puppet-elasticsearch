@@ -24,5 +24,5 @@ class { 'elasticsearch::install':
 
 ##License##
 
- Copyright (C) 2013 Jeff Vier <jeff@jeffvier.com> (Author)
+ Copyright (C) 2013 Jeff Vier <jeff@jeffvier.com> (Author)<br />
  License: Apache 2.0
