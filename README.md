@@ -4,8 +4,17 @@
 
 ##Usage##
 
+###Basic:
 ```puppet
 class { 'elasticsearch::install': }
+```
+
+###Override some stuff:
+```puppet
+class { 'elasticsearch::install':
+  install_root => '/usr/local',
+  run_as_user  => 'es-system',
+}
 ```
 
 ##License##
