@@ -2,6 +2,8 @@
 
 * Installs and runs elasticsearch as an upstart service
 
+* Pulls a specific version directly from github.  This isn't particularly ideal/best practice.  You should fork this and make it install a package from your locally hosted binary repo.
+
 ##Requirements##
 * git
 * upstart (though, this is easy to hack around if you prefer init.d)
