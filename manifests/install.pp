@@ -54,6 +54,8 @@ class elasticsearch::install(
       require => Exec['untar elasticsearch'];
 
     "${es_home}/logs":
+      owner   => $run_as_user,
+      mode    => 0775,
       ensure  => directory;
 
     'elasticsearch servicewrapper file':
