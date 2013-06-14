@@ -21,6 +21,8 @@ env CONFIG_DIR="${ES_HOME}/config"
 
 console output
 
+limit nofile 65535 65535
+
 script
   if [ -f /etc/default/elasticsearch ]; then
     . /etc/default/elasticsearch
