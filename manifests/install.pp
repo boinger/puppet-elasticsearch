@@ -1,5 +1,5 @@
 class elasticsearch::install(
-  $version        = "0.20.2",
+  $version        = "0.20.6",
   $install_root   = "/opt",
   ## service template options
   $detail_status  = true,
