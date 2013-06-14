@@ -27,14 +27,25 @@ class elasticsearch::install(
       creates   => "${es_home}-${version}",
       require   => Exec['download elasticsearch'];
 
-    'install servicewrapper':
+    'clone servicewrapper':
       path    => ['/usr/bin','/bin'],
       cwd     => $install_root,
       user    => root,
-      command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git && cp -R elasticsearch-servicewrapper/service elasticsearch/bin",
-      creates => "${es_home}/bin/service",
+      command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git",
+      creates => "${install_root}/elasticsearch-servicewrapper",
       require => [
         Exec['untar elasticsearch'],
+        Package['git']
+        ];
+
+    'install servicewrapper':
+      path    => ['/usr/bin','/bin'],
+      cwd     => "${install_root}/elasticsearch-servicewrapper",
+      user    => root,
+      command => "git pull && cp -R service ../elasticsearch/bin/",
+      creates => "${es_home}/bin/service",
+      require => [
+        Exec['clone servicewrapper'],
         File["${es_home}"],
         Package['git']
         ];
