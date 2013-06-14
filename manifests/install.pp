@@ -1,13 +1,14 @@
 class elasticsearch::install(
-  $version       = "0.20.2",
-  $install_root  = "/opt",
+  $version        = "0.20.2",
+  $install_root   = "/opt",
   ## service template options
-  $detail_status = true,
-  $run_as_user   = 'logstash',
-  $ulimit_n      = 32000,
-  $use_upstart   = true,
-  $es_min_mem    = "256m",
-  $es_max_mem    = "2g",
+  $detail_status  = true,
+  $run_as_user    = 'logstash',
+  $ulimit_n       = 32000,
+  $use_upstart    = true,
+  $es_min_mem     = "256m",
+  $es_max_mem     = "2g",
+  $es_master_bool = true,
 ){
 
   $es_home       = "${install_root}/elasticsearch"
