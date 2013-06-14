@@ -69,6 +69,12 @@ class elasticsearch::install(
       mode    => 0775,
       ensure  => directory;
 
+    "${es_home}/data":
+      owner   => $run_as_user,
+      mode    => 0775,
+      ensure  => directory,
+      require => File["${es_home"];
+
     'elasticsearch servicewrapper file':
       path    => "${es_home}/bin/service/elasticsearch",
       content => template('elasticsearch/elasticsearch-service.erb'),
