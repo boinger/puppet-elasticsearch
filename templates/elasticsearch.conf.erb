@@ -1,3 +1,4 @@
+## !!! File managed by puppet !!
 # ElasticSearch Service
 
 description     "ElasticSearch"
@@ -25,5 +26,5 @@ script
     . /etc/default/elasticsearch
   fi
 
-  su -s /bin/dash -c "${DAEMON} -f -Des.node.master=<%= @es_master_bool %> -Des.path.conf=$CONFIG_DIR -Des.path.home=$ES_HOME -Des.path.logs=$LOG_DIR -Des.path.data=$DATA_DIR -Des.path.work=$WORK_DIR" <%= @run_as_user %>
+  su -s /bin/dash -c "${DAEMON} -f -Des.path.conf=$CONFIG_DIR -Des.path.home=$ES_HOME -Des.path.logs=$LOG_DIR -Des.path.data=$DATA_DIR -Des.path.work=$WORK_DIR" <%= @run_as_user %>
 end script

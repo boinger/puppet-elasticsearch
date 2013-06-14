@@ -8,7 +8,6 @@ class elasticsearch::install(
   $use_upstart    = true,
   $es_min_mem     = "256m",
   $es_max_mem     = "2g",
-  $es_master_bool = true,
 ){
 
   $es_home       = "${install_root}/elasticsearch"
@@ -61,15 +60,16 @@ class elasticsearch::install(
 
     'elasticsearch servicewrapper file':
       path    => "${es_home}/bin/service/elasticsearch",
-      owner   => root,
-      group   => root,
       content => template('elasticsearch/elasticsearch-service.erb'),
+      require => Exec['install servicewrapper'];
+
+    'elasticsearch.yml':
+      path    => "${es_home}/config/elasticsearch.yml",
+      content => template('elasticsearch/elasticsearch.yml.erb'),
       require => Exec['install servicewrapper'];
 
     'elasticsearch upstart script':
       path    => '/etc/init/elasticsearch.conf',
-      owner   => root,
-      group   => root,
       content => template('elasticsearch/elasticsearch.conf.erb'),
       require => [Package['upstart'], File['elasticsearch servicewrapper file'] ,];
   }
