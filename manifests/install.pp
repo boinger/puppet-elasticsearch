@@ -83,6 +83,13 @@ class elasticsearch::install(
     'elasticsearch.yml':
       path    => "${es_home}/config/elasticsearch.yml",
       content => template('elasticsearch/elasticsearch.yml.erb'),
+      notify  => Exec['restart elasticsearch']
+      require => Exec['install servicewrapper'];
+
+    'logging.yml':
+      path    => "${es_home}/config/logging.yml",
+      content => template('elasticsearch/logging.yml.erb'),
+      notify  => Exec['restart elasticsearch']
       require => Exec['install servicewrapper'];
 
     'elasticsearch upstart script':
