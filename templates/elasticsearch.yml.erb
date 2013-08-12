@@ -119,6 +119,9 @@
 # Use the Index Status API (<http://localhost:9200/A/_status>) to inspect
 # the index status.
 
+indices.memory.index_buffer_size: 50%
+
+index.translog.flush_threshold_ops: 50000
 
 #################################### Paths ####################################
 
