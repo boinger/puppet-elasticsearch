@@ -326,9 +326,12 @@ cloud:
   aws:
     access_key: <%= @accessKeyId %>
     secret_key: <%= @secretAccessKey %>
+    region: <%= @awsESregion %>
 
 discovery:
   type: ec2
+
+discovery.ec2.groups: elasticsearch
 <%-
 end
 -%>
