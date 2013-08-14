@@ -7,7 +7,7 @@ class elasticsearch::install(
   $ulimit_n       = 32768,
   $use_upstart    = true,
   $es_min_mem     = "256m",
-  $es_max_mem     = "8g",
+  $es_max_mem     = "2g",
 ){
 
   $es_home       = "${install_root}/elasticsearch"
