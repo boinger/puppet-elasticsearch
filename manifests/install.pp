@@ -8,9 +8,17 @@ class elasticsearch::install(
   $use_upstart    = true,
   $es_min_mem     = "2g",
   $es_max_mem     = "2g",
+  $java_provider  = 'package',
+  $java_package   = 'java-1.7.0-openjdk',
 ){
 
   $es_home       = "${install_root}/elasticsearch"
+
+  if $java_provider == 'package' {
+    if ! defined(Package[$java_package]) {
+      package { "$java_package": }
+    }
+  }
 
   exec{
     'download elasticsearch':
@@ -97,7 +105,11 @@ class elasticsearch::install(
     'elasticsearch upstart script':
       path    => '/etc/init/elasticsearch.conf',
       content => template('elasticsearch/elasticsearch.conf.erb'),
-      require => [Package['upstart'], File['elasticsearch servicewrapper file'] ,];
+      require => [
+        Package['upstart'],
+        Package[$java_package],
+        File['elasticsearch servicewrapper file'],
+      ];
   }
 
   #service{'elasticsearch':
