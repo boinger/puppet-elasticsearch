@@ -3,7 +3,7 @@ class elasticsearch::install(
   $install_root   = "/opt",
   ## service template options
   $detail_status  = true,
-  $run_as_user    = 'logstash',
+  $run_as_user    = 'daemon',
   $ulimit_n       = 32768,
   $use_upstart    = true,
   $es_min_mem     = "2g",
