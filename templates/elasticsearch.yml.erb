@@ -319,8 +319,19 @@ discovery.zen.ping.multicast.enabled: false
 #
 # See <http://elasticsearch.org/tutorials/2011/08/22/elasticsearch-on-ec2.html>
 # for a step-by-step tutorial.
+<%-
+if @cloud_aws_plugin == true
+-%>
+cloud:
+  aws:
+    access_key: <%= @accessKeyId %>
+    secret_key: <%= @secretAccessKey %>
 
-
+discovery:
+  type: ec2
+<%-
+end
+-%>
 ################################## Slow Log ##################################
 
 # Shard level query and fetch threshold logging.

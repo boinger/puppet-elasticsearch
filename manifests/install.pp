@@ -1,22 +1,33 @@
 class elasticsearch::install(
-  $version        = "0.20.6",
-  $install_root   = "/opt",
+  $version          = "0.20.6",
+  $install_root     = "/opt",
   ## service template options
-  $detail_status  = true,
-  $run_as_user    = 'daemon',
-  $ulimit_n       = 32768,
-  $use_upstart    = true,
-  $es_min_mem     = "2g",
-  $es_max_mem     = "2g",
-  $java_provider  = 'package',
-  $java_package   = 'java-1.7.0-openjdk',
+  $detail_status    = true,
+  $run_as_user      = 'daemon',
+  $ulimit_n         = 32768,
+  $use_upstart      = true,
+  $es_min_mem       = "2g",
+  $es_max_mem       = "2g",
+  $java_provider    = 'package',
+  $java_package     = 'java-1.7.0-openjdk',
+  $cloud_aws_plugin = false,
 ){
 
-  $es_home       = "${install_root}/elasticsearch"
+  $es_home          = "${install_root}/elasticsearch"
+  $cloud_aws_version = '1.14.0'
 
   if $java_provider == 'package' {
     if ! defined(Package[$java_package]) {
       package { "$java_package": }
+    }
+  }
+
+  if $cloud_aws_plugin == true {
+    exec {
+      "install cloud-aws plugin":
+        cwd => "/opt/elasticsearch",
+        command => "bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_version}",
+        creates => "/opt/elasticsearch/plugins/cloud-aws",
     }
   }
 
