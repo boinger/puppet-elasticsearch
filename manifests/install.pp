@@ -6,7 +6,7 @@ class elasticsearch::install(
   $run_as_user    = 'logstash',
   $ulimit_n       = 32768,
   $use_upstart    = true,
-  $es_min_mem     = "256m",
+  $es_min_mem     = "2g",
   $es_max_mem     = "2g",
 ){
 
