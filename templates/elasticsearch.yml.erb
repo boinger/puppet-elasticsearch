@@ -330,8 +330,9 @@ cloud:
 
 discovery:
   type: ec2
-
-discovery.ec2.groups: elasticsearch
+  ec2:
+    groups: elasticsearch
+    
 <%-
 end
 -%>
