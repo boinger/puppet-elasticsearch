@@ -1,16 +1,17 @@
 class elasticsearch::install(
-  $version          = "0.20.6",
-  $install_root     = "/opt",
-  ## service template options
-  $detail_status    = true,
-  $run_as_user      = 'daemon',
-  $ulimit_n         = 32768,
-  $use_upstart      = true,
-  $es_min_mem       = "2g",
-  $es_max_mem       = "2g",
-  $java_provider    = 'package',
-  $java_package     = 'java-1.7.0-openjdk',
-  $cloud_aws_plugin = false, ## https://github.com/elasticsearch/elasticsearch-cloud-aws
+  $version           = "0.20.6",
+  $install_root      = "/opt",
+  $java_provider     = 'package',
+  $java_package      = 'java-1.7.0-openjdk',
+  $cloud_aws_plugin  = false, ## https://github.com/elasticsearch/elasticsearch-cloud-aws
+    ## service template options ##
+  $detail_status     = true,
+  $run_as_user       = 'daemon',
+  $ulimit_n          = 32768,
+  $use_upstart       = true,
+  $es_min_mem        = "2g",
+  $es_max_mem        = "2g",
+  $index_buffer_size = "75%",
 ){
 
   $es_home          = "${install_root}/elasticsearch"
