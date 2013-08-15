@@ -14,7 +14,6 @@ class elasticsearch::install(
 ){
 
   $es_home          = "${install_root}/elasticsearch"
-  $cloud_aws_version = '1.14.0'
 
   if $java_provider == 'package' {
     if ! defined(Package[$java_package]) {
@@ -22,10 +21,10 @@ class elasticsearch::install(
     }
   }
 
-  if $cloud_aws_plugin == true {
+  if $cloud_aws_plugin {
     exec {
       "install cloud-aws plugin":
-        command => "/opt/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_version}",
+        command => "/opt/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_plugin}",
         creates => "/opt/elasticsearch/plugins/cloud-aws",
         before  => Exec['restart elasticsearch'],
         require => [ File[$es_home], Exec['untar elasticsearch'], ];
