@@ -28,7 +28,7 @@ class elasticsearch::install(
         cwd     => "/opt/elasticsearch",
         command => "bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_version}",
         creates => "/opt/elasticsearch/plugins/cloud-aws",
-        require => Exec['install servicewrapper'];
+        require => File[$es_home];
     }
   }
 
