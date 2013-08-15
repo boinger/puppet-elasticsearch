@@ -27,6 +27,7 @@ class elasticsearch::install(
       "install cloud-aws plugin":
         command => "/opt/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_version}",
         creates => "/opt/elasticsearch/plugins/cloud-aws",
+        before  => Exec['restart elasticsearch'],
         require => [ File[$es_home], Exec['untar elasticsearch'], ];
     }
   }
