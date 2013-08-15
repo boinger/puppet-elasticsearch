@@ -202,7 +202,7 @@ index.translog.flush_threshold_ops: 50000
 
 # Enable compression for all communication between nodes (disabled by default):
 #
-# transport.tcp.compress: true
+transport.tcp.compress: true
 
 # Set a custom port to listen for HTTP traffic:
 #
@@ -320,7 +320,7 @@ discovery.zen.ping.multicast.enabled: false
 # See <http://elasticsearch.org/tutorials/2011/08/22/elasticsearch-on-ec2.html>
 # for a step-by-step tutorial.
 <%-
-if @cloud_aws_plugin == true
+if @cloud_aws_plugin
 -%>
 cloud:
   aws:
