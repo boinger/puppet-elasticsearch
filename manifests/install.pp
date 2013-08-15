@@ -25,9 +25,10 @@ class elasticsearch::install(
   if $cloud_aws_plugin == true {
     exec {
       "install cloud-aws plugin":
-        cwd => "/opt/elasticsearch",
+        cwd     => "/opt/elasticsearch",
         command => "bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_version}",
         creates => "/opt/elasticsearch/plugins/cloud-aws",
+        require => Exec['install servicewrapper'];
     }
   }
 
