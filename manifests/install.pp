@@ -10,7 +10,7 @@ class elasticsearch::install(
   $es_max_mem       = "2g",
   $java_provider    = 'package',
   $java_package     = 'java-1.7.0-openjdk',
-  $cloud_aws_plugin = false,
+  $cloud_aws_plugin = false, ## https://github.com/elasticsearch/elasticsearch-cloud-aws
 ){
 
   $es_home          = "${install_root}/elasticsearch"
