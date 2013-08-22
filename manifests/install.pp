@@ -1,26 +1,4 @@
-class elasticsearch::install(
-  $version           = "0.20.6",
-  $install_root      = "/opt",
-  $java_provider     = 'package',
-  $java_package      = 'java-1.7.0-openjdk',
-  $cloud_aws_plugin  = false, ## https://github.com/elasticsearch/elasticsearch-cloud-aws
-    ## service template options ##
-  $detail_status     = true,
-  $run_as_user       = 'daemon',
-  $ulimit_n          = 32768,
-  $use_upstart       = true,
-  $es_min_mem        = "2g",
-  $es_max_mem        = "2g",
-  $index_buffer_size = "75%",
-){
-
-  $es_home          = "${install_root}/elasticsearch"
-
-  if $java_provider == 'package' {
-    if ! defined(Package[$java_package]) {
-      package { "$java_package": }
-    }
-  }
+class elasticsearch::install inherits elasticsearch::params {
 
   if $cloud_aws_plugin {
     exec {
@@ -28,7 +6,10 @@ class elasticsearch::install(
         command => "/opt/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_plugin}",
         creates => "/opt/elasticsearch/plugins/cloud-aws",
         before  => Exec['restart elasticsearch'],
-        require => [ File[$es_home], Exec['untar elasticsearch'], ];
+        require => [
+          File[$es_home],
+          Exec['untar elasticsearch'],
+        ];
     }
   }
 
@@ -37,8 +18,7 @@ class elasticsearch::install(
       cwd       => $install_root,
       user      => root,
       command   => "/usr/bin/wget http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.tar.gz",
-      creates   => "${install_root}/elasticsearch-${version}.tar.gz",
-      require   => Package['wget'];
+      creates   => "${install_root}/elasticsearch-${version}.tar.gz";
 
     'untar elasticsearch':
       cwd       => $install_root,
@@ -55,8 +35,7 @@ class elasticsearch::install(
       creates => "${install_root}/elasticsearch-servicewrapper",
       require => [
         Exec['untar elasticsearch'],
-        Package['git']
-        ];
+      ];
 
     'install servicewrapper':
       path    => ['/usr/bin','/bin'],
@@ -67,8 +46,7 @@ class elasticsearch::install(
       require => [
         Exec['clone servicewrapper'],
         File["${es_home}"],
-        Package['git']
-        ];
+      ];
 
     ## Defined this way instead of as a Service since Puppet thinks upstart is Ubuntu-only >:|
     "restart elasticsearch":
@@ -76,10 +54,17 @@ class elasticsearch::install(
       refreshonly => true,
       require     => File['/etc/init/elasticsearch.conf'],
       subscribe   => File['/etc/init/elasticsearch.conf'];
-
   }
 
-  file{
+  #service{'elasticsearch':
+    #ensure     => running,
+    #enable     => true,
+    #hasstatus  => true,
+    #hasrestart => true,
+    #require    => File['elasticsearch init script'];
+  #}
+
+  file {
     "${es_home}":
       ensure  => "${es_home}-${version}",
       require => Exec['untar elasticsearch'];
@@ -118,17 +103,7 @@ class elasticsearch::install(
       path    => '/etc/init/elasticsearch.conf',
       content => template('elasticsearch/elasticsearch.conf.erb'),
       require => [
-        Package['upstart'],
-        Package[$java_package],
         File['elasticsearch servicewrapper file'],
       ];
   }
-
-  #service{'elasticsearch':
-    #ensure     => running,
-    #enable     => true,
-    #hasstatus  => true,
-    #hasrestart => true,
-    #require    => File['elasticsearch init script'];
-  #}
 }
