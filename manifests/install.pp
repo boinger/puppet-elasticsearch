@@ -1,5 +1,18 @@
 class elasticsearch::install inherits elasticsearch::params {
 
+  Exec {
+    path => [
+      '/bin',
+      '/sbin',
+      '/usr/bin',
+      '/usr/sbin',
+      '/usr/local/bin',
+      '/usr/local/sbin',
+      '/opt/bin',
+      '/opt/sbin',
+    ]
+  }
+
   if $cloud_aws_plugin {
     exec {
       "install cloud-aws plugin":
@@ -15,35 +28,38 @@ class elasticsearch::install inherits elasticsearch::params {
 
   exec{
     'download elasticsearch':
+      command   => "wget http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.tar.gz",
       cwd       => $install_root,
       user      => root,
-      command   => "/usr/bin/wget http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.tar.gz",
-      creates   => "${install_root}/elasticsearch-${version}.tar.gz";
+      creates   => "${install_root}/elasticsearch-${version}.tar.gz",
+      require   => [
+        Package[$wget_package],
+      ];
 
     'untar elasticsearch':
+      command   => "tar xvfz elasticsearch-${version}.tar.gz",
       cwd       => $install_root,
       user      => root,
-      command   => "/bin/tar xvfz elasticsearch-${version}.tar.gz",
       creates   => "${es_home}-${version}",
       require   => Exec['download elasticsearch'];
 
     'clone servicewrapper':
-      path    => ['/usr/bin','/bin'],
+      command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git",
       cwd     => $install_root,
       user    => root,
-      command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git",
       creates => "${install_root}/elasticsearch-servicewrapper",
       require => [
+        Package[$git_package],
         Exec['untar elasticsearch'],
       ];
 
     'install servicewrapper':
-      path    => ['/usr/bin','/bin'],
+      command => "git pull && cp -R service ../elasticsearch/bin/",
       cwd     => "${install_root}/elasticsearch-servicewrapper",
       user    => root,
-      command => "git pull && cp -R service ../elasticsearch/bin/",
       creates => "${es_home}/bin/service",
       require => [
+        Package[$git_package],
         Exec['clone servicewrapper'],
         File["${es_home}"],
       ];
@@ -103,6 +119,8 @@ class elasticsearch::install inherits elasticsearch::params {
       path    => '/etc/init/elasticsearch.conf',
       content => template('elasticsearch/elasticsearch.conf.erb'),
       require => [
+        Package[$upstart_package],
+        Package[$java_package],
         File['elasticsearch servicewrapper file'],
       ];
   }

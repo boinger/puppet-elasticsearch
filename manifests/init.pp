@@ -30,8 +30,9 @@ class elasticsearch (
     index_buffer_size => $index_buffer_size,
   }
 
-  include elasticsearch::packages
-  include elasticsearch::install
-  Class['elasticsearch::packages'] -> Class['elasticsearch::install']
+  class {'elasticsearch::install': }
+  class {'elasticsearch::packages':
+    before => Class['elasticsearch::install']
+  }
 
 }
