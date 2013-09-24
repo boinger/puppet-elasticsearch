@@ -87,7 +87,8 @@ class elasticsearch::install(
     "${es_home}/logs":
       owner   => $run_as_user,
       mode    => 0775,
-      ensure  => directory;
+      ensure  => directory,
+      require => File["${es_home}"];
 
     "${es_home}/data":
       owner   => $run_as_user,
