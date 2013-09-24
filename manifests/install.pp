@@ -72,7 +72,7 @@ class elasticsearch::install(
 
     ## Defined this way instead of as a Service since Puppet thinks upstart is Ubuntu-only >:|
     "restart elasticsearch":
-      command     => "stop elasticsearch; start elasticsearch",
+      command     => "stop elasticsearch; sleep 15; start elasticsearch",
       refreshonly => true,
       require     => File['/etc/init/elasticsearch.conf'],
       subscribe   => File['/etc/init/elasticsearch.conf'];
