@@ -261,11 +261,11 @@ http.max_content_length: 500mb
 #
 # 1. During the initial recovery
 #
-# cluster.routing.allocation.node_initial_primaries_recoveries: 4
+cluster.routing.allocation.node_initial_primaries_recoveries: 4
 #
 # 2. During adding/removing nodes, rebalancing, etc
 #
-# cluster.routing.allocation.node_concurrent_recoveries: 2
+cluster.routing.allocation.node_concurrent_recoveries: 4
 
 # Set to throttle throughput when recovering (eg. 100mb, by default unlimited):
 #
@@ -274,7 +274,7 @@ http.max_content_length: 500mb
 # Set to limit the number of open concurrent streams when
 # recovering a shard from a peer:
 #
-# indices.recovery.concurrent_streams: 5
+indices.recovery.concurrent_streams: 5
 
 
 ################################## Discovery ##################################
