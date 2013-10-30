@@ -4,6 +4,7 @@ class elasticsearch::install(
   $java_provider     = 'package',
   $java_package      = 'java-1.7.0-openjdk',
   $cloud_aws_plugin  = false, ## https://github.com/elasticsearch/elasticsearch-cloud-aws
+  $allow_restart     = false,
     ## service template options ##
   $detail_status     = true,
   $run_as_user       = 'daemon',
@@ -30,6 +31,12 @@ class elasticsearch::install(
         before  => Exec['restart elasticsearch'],
         require => [ File[$es_home], Exec['untar elasticsearch'], ];
     }
+  }
+
+  if $allow_restart {
+    $restart_command = "stop elasticsearch; sleep 15; start elasticsearch"
+  } else {
+    $restart_command = 'true'
   }
 
   exec{
@@ -72,7 +79,7 @@ class elasticsearch::install(
 
     ## Defined this way instead of as a Service since Puppet thinks upstart is Ubuntu-only >:|
     "restart elasticsearch":
-      command     => "stop elasticsearch; sleep 15; start elasticsearch",
+      command     => $restart_command,
       refreshonly => true,
       require     => File['/etc/init/elasticsearch.conf'],
       subscribe   => File['/etc/init/elasticsearch.conf'];
