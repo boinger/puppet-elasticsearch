@@ -4,7 +4,7 @@ class elasticsearch::install(
   $install_root      = "/opt",
   $java_provider     = 'package',
   $java_package      = 'java-1.7.0-openjdk',
-  $cloud_aws_plugin  = false, ## https://github.com/elasticsearch/elasticsearch-cloud-aws
+  $cloud_aws_plugin  = '1.15.0', ## https://github.com/elasticsearch/elasticsearch-cloud-aws
   $allow_restart     = false,
     ## service template options ##
   $detail_status     = true,
