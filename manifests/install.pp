@@ -1,10 +1,10 @@
 class elasticsearch::install(
   $aws_bucket, ## comment-out this parameter if you don't want to cluster via the cloud_aws plugin
-  $version           = "0.20.6",
+  $version           = "0.90.3",
   $install_root      = "/opt",
   $java_provider     = 'package',
   $java_package      = 'java-1.7.0-openjdk',
-  $cloud_aws_plugin  = '1.15.0', ## https://github.com/elasticsearch/elasticsearch-cloud-aws
+  $cloud_aws_plugin  = '1.14.0', ## https://github.com/elasticsearch/elasticsearch-cloud-aws
   $allow_restart     = false,
     ## service template options ##
   $detail_status     = true,
@@ -28,7 +28,7 @@ class elasticsearch::install(
     exec {
       "install cloud-aws plugin":
         command => "/opt/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-cloud-aws/${cloud_aws_plugin}",
-        creates => "/opt/elasticsearch/plugins/cloud-aws",
+        creates => "/opt/elasticsearch/plugins/cloud-aws/elasticsearch-cloud-aws-${cloud_aws_plugin}.jar",
         before  => Exec['restart elasticsearch'],
         require => [ File[$es_home], Exec['untar elasticsearch'], ];
     }
