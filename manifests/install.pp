@@ -1,4 +1,5 @@
 class elasticsearch::install(
+  $aws_bucket, ## comment-out this parameter if you don't want to cluster via the cloud_aws plugin
   $version           = "0.20.6",
   $install_root      = "/opt",
   $java_provider     = 'package',
