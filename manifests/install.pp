@@ -1,5 +1,5 @@
 class elasticsearch::install(
-  #$aws_bucket, ## comment-out this parameter if you don't want to use S3 for the gateway
+  $aws_bucket, ## comment-out this parameter if you don't want to use S3 for the gateway
   $version           = "0.90.3",
   $install_root      = "/opt",
   $java_provider     = 'package',
