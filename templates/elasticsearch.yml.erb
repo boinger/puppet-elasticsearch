@@ -321,9 +321,7 @@ discovery.zen.ping.multicast.enabled: false
 #
 # See <http://elasticsearch.org/tutorials/2011/08/22/elasticsearch-on-ec2.html>
 # for a step-by-step tutorial.
-<%-
-if @cloud_aws_plugin
--%>
+<%- if @cloud_aws_plugin %>
 cloud:
   aws:
     access_key: <%= @accessKeyId %>
@@ -336,12 +334,12 @@ discovery:
     groups: elasticsearch
 
 gateway:
-    type: s3
-    s3:
-        bucket: <%= @aws_bucket %>
-<%-
-end
--%>
+  type: <%= @gateway_type %>
+<%
+if @gateway_type == "s3"
+-%>  s3.bucket: <%= @aws_bucket %>
+<%- end -%>
+<%- end -%>
 ################################## Slow Log ##################################
 
 # Shard level query and fetch threshold logging.
