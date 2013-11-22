@@ -15,6 +15,7 @@ class elasticsearch::install(
   $use_upstart       = true,
   $es_min_mem        = "2g",
   $es_max_mem        = "2g",
+  $es_java_opts      = "",
   $index_buffer_size = "75%",
 ){
 
