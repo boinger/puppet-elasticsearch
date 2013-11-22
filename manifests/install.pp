@@ -1,9 +1,10 @@
 class elasticsearch::install(
-  $aws_bucket, ## comment-out this parameter if you don't want to cluster via the cloud_aws plugin
+  $aws_bucket, ## comment-out this parameter if you don't want to use S3 for the gateway
   $version           = "0.90.3",
   $install_root      = "/opt",
   $java_provider     = 'package',
   $java_package      = 'java-1.7.0-openjdk',
+  $gateway_type      = 's3',
   $cloud_aws_plugin  = '1.14.0', ## https://github.com/elasticsearch/elasticsearch-cloud-aws
   $allow_restart     = false,
     ## service template options ##
