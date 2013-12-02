@@ -42,9 +42,12 @@ wrapper.java.additional.1=-Delasticsearch-service
 wrapper.java.additional.2=-Des.path.home=%ES_HOME%
 wrapper.java.additional.3=-Xss256k
 wrapper.java.additional.4=-XX:+UseParNewGC
-wrapper.java.additional.5=-XX:+UseConcMarkSweepGC
-wrapper.java.additional.6=-XX:CMSInitiatingOccupancyFraction=75
-wrapper.java.additional.7=-XX:+UseCMSInitiatingOccupancyOnly
+#wrapper.java.additional.5=-XX:+UseConcMarkSweepGC
+#wrapper.java.additional.6=-XX:CMSInitiatingOccupancyFraction=75
+#wrapper.java.additional.7=-XX:+UseCMSInitiatingOccupancyOnly
+wrapper.java.additional.5=-XX:+UseParallelGC
+wrapper.java.additional.6=-XX:ParallelGCThreads=8
+wrapper.java.additional.7=-XX:+UseParallelOldGC
 wrapper.java.additional.8=-XX:+HeapDumpOnOutOfMemoryError
 wrapper.java.additional.9=-Djava.awt.headless=true
 
