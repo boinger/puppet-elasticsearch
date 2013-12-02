@@ -117,6 +117,11 @@ class elasticsearch::install(
       content => template('elasticsearch/elasticsearch-service.conf.erb'),
       require => Exec['install servicewrapper'];
 
+    'elasticsearch.in.sh':
+      path    => "${es_home}/bin/elasticsearch.in.sh",
+      content => template('elasticsearch/elasticsearch.in.sh.erb'),
+      require => Exec['install servicewrapper'];
+
     'elasticsearch.yml':
       path    => "${es_home}/config/elasticsearch.yml",
       content => template('elasticsearch/elasticsearch.yml.erb'),
