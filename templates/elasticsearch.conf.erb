@@ -25,6 +25,7 @@ console output
 kill timeout 20
 
 limit nofile 16384 32768
+limit memlock unlimited unlimited
 
 script
   if [ -f /etc/default/elasticsearch ]; then
