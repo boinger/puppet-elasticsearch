@@ -42,6 +42,7 @@ pre-start script
 end script
 
 pre-stop script
+  [ -f /opt/elasticsearch/logs/gc.log ] && mv /opt/elasticsearch/logs/gc.log /opt/elasticsearch/logs/gc-$(date +%s).log
   logger [elasticsearch] stopping upstart daemon
   exec curl -XPOST http://localhost:9200/_shutdown
 end script
