@@ -37,6 +37,7 @@ script
 end script
 
 pre-start script
+  [ -f /opt/elasticsearch/logs/gc.log ] && mv /opt/elasticsearch/logs/gc.log /opt/elasticsearch/logs/gc-$(date +%s).log
   logger [elasticsearch] starting upstart daemon
 end script
 
