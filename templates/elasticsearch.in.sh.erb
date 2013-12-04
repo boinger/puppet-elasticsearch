@@ -42,7 +42,7 @@ if [ "x$ES_USE_IPV4" != "x" ]; then
 fi
 
 JAVA_OPTS="$JAVA_OPTS -XX:+UseG1GC"
-JAVA_OPTS="$JAVA_OPTS -XX:ParallelGCThreads=4"
+JAVA_OPTS="$JAVA_OPTS -XX:ParallelGCThreads=<%= @processorcount %>"
 #JAVA_OPTS="$JAVA_OPTS -XX:+UseParallelOldGC"
 
 # GC logging options
