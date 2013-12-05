@@ -19,7 +19,7 @@ class elasticsearch::install(
   $es_java_opts       = "",
   $index_buffer_size  = "25%",
   $flush_threshold_ops = 10000,
-  $tcpcompress         = false,
+  $tcpcompress         = true,
   $mlockall            = true,
   $max_content_length  = '500mb',
 ){
