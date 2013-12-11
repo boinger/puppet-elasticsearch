@@ -1,5 +1,5 @@
 class elasticsearch::install(
-  $role               = "combo",  ## or "master" or "data"
+  $role               = "combo",  ## or "master" or "data" or "client"
   $version            = "0.90.7",
   $install_root       = "/opt",
   $java_provider      = 'package',
@@ -35,6 +35,9 @@ class elasticsearch::install(
   } elsif $role == 'data' {
     $nodemaster = 'false'
     $nodedata = 'true'
+  } elsif $role == 'client' {
+    $nodemaster = 'false'
+    $nodedata = 'false'
   }
 
   if $java_provider == 'package' {
