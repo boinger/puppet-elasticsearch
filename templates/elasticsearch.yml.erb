@@ -232,17 +232,17 @@ http.max_content_length: <%= @max_content_length %>
 #
 # 1. During the initial recovery
 #
-cluster.routing.allocation.node_initial_primaries_recoveries: 16
-#
+cluster.routing.allocation.node_initial_primaries_recoveries: 32
+cluster.routing.allocation.node_concurrent_recoveries: 8
+
 # 2. During adding/removing nodes, rebalancing, etc
 #
-cluster.routing.allocation.node_concurrent_recoveries: 4
-
-cluster.routing.allocation.cluster_concurrent_rebalance: 4
+cluster.routing.allocation.cluster_concurrent_rebalance: 16
 
 # Set to throttle throughput when recovering (eg. 100mb, by default unlimited):
 #
-# indices.recovery.max_size_per_sec: 0
+indices.recovery.max_bytes_per_sec: 100mb
+indices.recovery.compress: true
 
 # Set to limit the number of open concurrent streams when
 # recovering a shard from a peer:
