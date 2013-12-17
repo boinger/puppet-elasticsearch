@@ -30,15 +30,19 @@ class elasticsearch::install(
   if $role == 'combo' {
     $nodemaster = 'true'
     $nodedata = 'true'
+    $http_enabled = 'true'
   } elsif $role == 'master' {
     $nodemaster = 'true'
     $nodedata = 'false'
+    $http_enabled = 'true'
   } elsif $role == 'data' {
     $nodemaster = 'false'
     $nodedata = 'true'
+    $http_enabled = 'false'
   } elsif $role == 'client' {
     $nodemaster = 'false'
     $nodedata = 'false'
+    $http_enabled = 'true'
   }
 
   if $java_provider == 'package' {
