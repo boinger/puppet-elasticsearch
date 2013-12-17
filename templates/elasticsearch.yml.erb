@@ -297,12 +297,13 @@ cloud:
   aws:
     access_key: <%= @accessKeyId %>
     secret_key: <%= @secretAccessKey %>
-    region: <%= @awsESregion %>
+    #region: <%= @awsESregion %>
 
 discovery:
   type: ec2
   ec2:
     groups: elasticsearch
+    host_type: <%= @discovery_ec2_host_type %>
 
 gateway:
   type: <%= @gateway_type %>

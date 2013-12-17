@@ -1,27 +1,28 @@
 class elasticsearch::install(
-  $role               = "combo",  ## or "master" or "data" or "client"
-  $version            = "0.90.7",
-  $install_root       = "/opt",
-  $java_provider      = 'package',
-  $java_package       = 'java-1.7.0-openjdk',
-  $cloud_aws_plugin   = '1.16.0', ## https://github.com/elasticsearch/elasticsearch-cloud-aws
-  $allow_restart      = false,
+  $role                    = "combo",  ## or "master" or "data" or "client"
+  $version                 = "0.90.7",
+  $install_root            = "/opt",
+  $java_provider           = 'package',
+  $java_package            = 'java-1.7.0-openjdk',
+  $cloud_aws_plugin        = '1.16.0', ## https://github.com/elasticsearch/elasticsearch-cloud-aws
+  $allow_restart           = false,
     ## service template options ##
-  $gateway_type       = 'local',
-  $number_of_shards   = 5,
-  $number_of_replicas = 1,
-  $detail_status      = true,
-  $run_as_user        = 'daemon',
-  $ulimit_n           = 32768,
-  $use_upstart        = true,
-  $es_min_mem         = "2g",
-  $es_max_mem         = "2g",
-  $es_java_opts       = "",
-  $index_buffer_size  = "25%",
-  $flush_threshold_ops = 10000,
-  $tcpcompress         = true,
-  $mlockall            = true,
-  $max_content_length  = '500mb',
+  $gateway_type            = 'local',
+  $discovery_ec2_host_type = 'private_ip',
+  $number_of_shards        = 5,
+  $number_of_replicas      = 1,
+  $detail_status           = true,
+  $run_as_user             = 'daemon',
+  $ulimit_n                = 32768,
+  $use_upstart             = true,
+  $es_min_mem              = "2g",
+  $es_max_mem              = "2g",
+  $es_java_opts            = "",
+  $index_buffer_size       = "25%",
+  $flush_threshold_ops     = 10000,
+  $tcpcompress             = true,
+  $mlockall                = true,
+  $max_content_length      = '500mb',
 ){
 
   $es_home          = "${install_root}/elasticsearch"
