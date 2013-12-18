@@ -28,9 +28,9 @@ class elasticsearch::install(
 ){
 
   if $cluster_data_node_count > 0 {
-    $half_cluster_data_node_count = inline_template("<%= @cluster_data_node_count.to_i / 2 %>")
+    $half_cluster_data_node_count = inline_template("<%= (@cluster_data_node_count.to_i + 1) / 2 %>")
   } else {
-    $half_cluster_node_count = inline_template("<%= @cluster_node_count.to_i / 2 %>")
+    $half_cluster_node_count = inline_template("<%= (@cluster_node_count.to_i + 1) / 2 %>")
   }
 
   $es_home          = "${install_root}/elasticsearch"
