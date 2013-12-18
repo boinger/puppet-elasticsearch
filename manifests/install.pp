@@ -38,7 +38,7 @@ class elasticsearch::install(
   } elsif $role == 'data' {
     $nodemaster = 'false'
     $nodedata = 'true'
-    $http_enabled = 'false'
+    $http_enabled = 'true'  ## needs to remain on if you're collecting stats!
   } elsif $role == 'client' {
     $nodemaster = 'false'
     $nodedata = 'false'
