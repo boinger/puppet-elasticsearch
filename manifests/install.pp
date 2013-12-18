@@ -27,7 +27,11 @@ class elasticsearch::install(
   $max_content_length      = '500mb',
 ){
 
-  $halfcluster_node_count = inline_template("<%= @cluster_node_count.to_i / 2 %>")
+  if $cluster_data_node_count > 0 {
+    $halfcluster_data_node_count = inline_template("<%= @cluster_data_node_count.to_i / 2 %>")
+  } else {
+    $halfcluster_node_count = inline_template("<%= @cluster_node_count.to_i / 2 %>")
+  }
 
   $es_home          = "${install_root}/elasticsearch"
 
