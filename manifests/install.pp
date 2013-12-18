@@ -11,6 +11,8 @@ class elasticsearch::install(
   $discovery_ec2_host_type = 'private_ip',
   $number_of_shards        = 5,
   $number_of_replicas      = 1,
+  $cluster_node_count      = 2,
+  $cluster_data_node_count = 0,
   $detail_status           = true,
   $run_as_user             = 'daemon',
   $ulimit_n                = 32768,
@@ -24,6 +26,8 @@ class elasticsearch::install(
   $mlockall                = true,
   $max_content_length      = '500mb',
 ){
+
+  $halfcluster_node_count = inline_template("<%= @cluster_node_count.to_i / 2 %>")
 
   $es_home          = "${install_root}/elasticsearch"
 

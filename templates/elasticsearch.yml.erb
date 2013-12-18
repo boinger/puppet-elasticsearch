@@ -202,7 +202,7 @@ http.enabled: <%= @http_enabled %>
 
 # The default gateway type is the "local" gateway (recommended):
 #
-# gateway.type: local
+gateway.type: local
 
 # Settings below control how and when to start the initial recovery process on
 # a full cluster restart (to reuse as much local data as possible when using shared
@@ -210,18 +210,26 @@ http.enabled: <%= @http_enabled %>
 
 # Allow recovery process after N nodes in a cluster are up:
 #
-# gateway.recover_after_nodes: 1
+<%- if @half_cluster_data_node_count %>
+gateway.recover_after_data_nodes: <%= @half_cluster_data_node_count %>
+<%- else %>
+gateway.recover_after_nodes: <%= @half_cluster_node_count %>
+<%- end %>
 
 # Set the timeout to initiate the recovery process, once the N nodes
 # from previous setting are up (accepts time value):
 #
-# gateway.recover_after_time: 5m
+gateway.recover_after_time: 1m
 
 # Set how many nodes are expected in this cluster. Once these N nodes
 # are up (and recover_after_nodes is met), begin recovery process immediately
 # (without waiting for recover_after_time to expire):
 #
-# gateway.expected_nodes: 2
+<%- if @cluster_data_node_count %>
+gateway.expected_data_nodes: <%= @cluster_data_node_count %>
+<%- else %>
+gateway.expected_nodes: <%= @cluster_node_count %>
+<%- end %>
 
 
 ############################# Recovery Throttling #############################
