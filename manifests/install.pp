@@ -1,6 +1,6 @@
 class elasticsearch::install(
   $role                    = "combo",  ## or "master" or "data" or "client"
-  $version                 = "0.90.7",
+  $version                 = "0.90.10",
   $install_root            = "/opt",
   $java_provider           = 'package',
   $java_package            = 'java-1.7.0-openjdk',
