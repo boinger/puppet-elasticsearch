@@ -1,9 +1,9 @@
 class elasticsearch::install(
   $role                    = "combo",  ## or "master" or "data" or "client"
-  $version                 = "0.90.10",
+  $version                 = "0.90.11",
   $install_root            = "/opt",
   $java_provider           = 'package',
-  $java_package            = 'java-1.7.0-openjdk',
+  $java_package            = 'jdk', ## Use Oracle JDK
   $cloud_aws_plugin        = '1.16.0', ## https://github.com/elasticsearch/elasticsearch-cloud-aws
   $allow_restart           = false,
     ## service template options ##
