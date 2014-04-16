@@ -11,6 +11,7 @@ class elasticsearch::install(
   $discovery_ec2_host_type = 'private_ip',
   $number_of_shards        = 5,
   $number_of_replicas      = 1,
+  $cluster_name            = 'elasticsearch',
   $cluster_node_count      = 2,  # node count, if you are using normal "combined" nodes
   $cluster_data_node_count = 0,  # data node count, if you're splitting among data, master, and client.
   $detail_status           = true,
