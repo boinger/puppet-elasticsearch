@@ -140,6 +140,11 @@ class elasticsearch::install(
       ensure  => directory,
       require => File["${es_home}"];
 
+    "${es_home}/bin/es_unassigned.rb":
+      owner   => $run_as_user,
+      mode    => 0755,
+      source  => "puppet:///modules/${module_name}/es_unassigned.rb";
+
     'elasticsearch servicewrapper file':
       path    => "${es_home}/bin/service/elasticsearch",
       content => template('elasticsearch/elasticsearch-service.erb'),
