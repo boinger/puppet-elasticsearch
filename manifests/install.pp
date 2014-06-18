@@ -26,6 +26,7 @@ class elasticsearch::install(
   $tcpcompress             = true,
   $mlockall                = true,
   $max_content_length      = '500mb',
+  $config_template         = 'elasticsearch/elasticsearch.yml.erb',
 ){
 
   if $cluster_data_node_count > 0 {
@@ -162,7 +163,7 @@ class elasticsearch::install(
 
     'elasticsearch.yml':
       path    => "${es_home}/config/elasticsearch.yml",
-      content => template('elasticsearch/elasticsearch.yml.erb'),
+      content => template($config_template),
       mode    => 0644,
       notify  => Exec['restart elasticsearch'],
       require => Exec['install servicewrapper'];
