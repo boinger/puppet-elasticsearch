@@ -25,8 +25,9 @@ node.name: "<%= @hostname %>"
 
 # turn off networking completely
 <%=
-"node.local: true" if @elasticsearch_node_local
-"" unless @elasticsearch_node_local
+out = ""
+out = "node.local: true" if @elasticsearch_node_local
+out
 %>
 
 # Every node can be configured to allow or deny being eligible as the master,
