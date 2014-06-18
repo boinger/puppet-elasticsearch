@@ -1,0 +1,21 @@
+## !!! File managed by puppet !!
+# http://www.elasticsearch.org/guide/en/elasticsearch/reference/0.90/index.html
+action.disable_delete_all_indices: true
+bootstrap.mlockall: true
+cluster.name: <%= @cluster_name %>
+discovery.zen.ping.multicast.enabled: false
+gateway.recover_after_time: 1m
+gateway.type: local
+http.enabled: true
+http.max_content_length: 500mb
+index.number_of_replicas: 0
+index.number_of_shards: 5
+index.translog.flush_threshold_ops: 10000
+indices.fielddata.cache.expire: 60m
+indices.fielddata.cache.size: 33%
+indices.memory.index_buffer_size: 25%
+network.tcp.keep_alive: true
+node.local: true
+node.name: "<%= @hostname %>"
+transport.tcp.compress: true
+
