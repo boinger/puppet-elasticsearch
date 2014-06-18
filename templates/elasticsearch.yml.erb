@@ -23,6 +23,12 @@ cluster.name: <%= @cluster_name %>
 #
 node.name: "<%= @hostname %>"
 
+# turn off networking completely
+<%=
+"node.local: true" if @elasticsearch_node_local
+"" unless @elasticsearch_node_local
+%>
+
 # Every node can be configured to allow or deny being eligible as the master,
 # and to allow or deny to store the data.
 #
