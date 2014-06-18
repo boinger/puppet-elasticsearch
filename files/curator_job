@@ -1,0 +1,68 @@
+#!/bin/bash
+
+
+# /opt/curator/curator_job logstash-7-30 other-90-365
+#   curator_job runs curator for the given specification.
+#   In the example above, indexes with prefix "logstash-" will be closed after 7 days and deleted after 30
+#   indexes with prefix "other-" will be closed after 90 days and deleted after 356
+#   closed_days must be less than delete_days
+
+exec >/opt/curator/curator.log 2>&1
+
+# setup curator
+curator=/usr/bin/curator
+if [ ! -e $curator ]; then
+    echo installing missing $curator
+
+    # XXX must update curator to match elasticsearch!!!
+    /usr/bin/pip install elasticsearch-curator==0.6.2
+
+    if [ ! -e $curator ]; then
+        echo failed to install elasticsearch-curator
+        exit 1
+    fi
+fi
+
+if [ ! -e /opt/curator/is_es_master ]; then
+    echo missing /opt/curator/is_es_master
+    exit 2
+fi
+
+if ! /opt/curator/is_es_master; then
+    echo not master
+    exit 0
+fi
+
+# parse the spec and execute curator
+for spec in "$@"; do
+    echo "$spec"
+    if [[ $spec =~ ^([a-zA-Z0-9]+-)([0-9]+)-([0-9]+)$ ]]; then
+        prefix=${BASH_REMATCH[1]}
+        close_days=${BASH_REMATCH[2]}
+        delete_days=${BASH_REMATCH[3]}
+
+        if [ $close_days -lt 7 ]; then
+            echo close_days must be 7 or greater
+            exit 1
+        fi
+
+        if [ $delete_days -lt 7 ]; then
+            echo delete_days must be 7 or greater
+            exit 1
+        fi
+
+        if [ $delete_days -le $close_days ]; then
+            echo delete_days must be greater than close days
+            exit 1
+        fi
+
+        echo curating $prefix: closing after ${close_days}days. deleting after {$delete_days}days.
+
+        $curator -c $close_days -p $prefix
+        $curator -d $delete_days -p $prefix
+    else
+        echo bad curator spec: $spec
+        exit 1
+    fi
+done
+

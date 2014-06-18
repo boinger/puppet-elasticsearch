@@ -1,0 +1,41 @@
+#!/usr/bin/ruby
+
+require 'rubygems'
+require 'net/http'
+require 'json'
+require 'pp'
+
+# for faster logging
+STDOUT.sync = true
+STDERR.sync = true
+
+def json_get(url)
+  out = {}
+  begin
+    uri = URI.parse(url)
+    res = Net::HTTP.get_response(uri)
+    return out if res.code.to_i != 200
+    out = JSON.parse(res.body)
+  rescue
+    return {}
+  end
+  return out
+end
+
+shn = `/bin/hostname -s 2>&1`.chomp
+unless shn.match(/^[a-zA-Z0-9]+$/)
+  puts "error getting current hostname: #{shn}"
+  exit 1
+end
+
+u = 'http://localhost:9200/_cluster/state?filter_routing_table=true&filter_metadata=true&filter_blocks=true&filter_indices=true&pretty=true'
+out = json_get(u)
+
+nodes = out["nodes"] || {}
+master_id = out["master_node"] || {}
+master_node = nodes[master_id] || {}
+master_shn = master_node["name"] || "could not find master node name"
+
+exit 0 if master_shn == shn
+exit 1
+
